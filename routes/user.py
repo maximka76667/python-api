@@ -23,11 +23,11 @@ async def add_user(user: User):
 
 @user.put("/{id}")
 async def update_user(id: int, user: User):
-  conn.execute(users.update().values(
+  conn.execute(users.update().where(users.c.id == id).values(
     name=user.name,
     email=user.email,
     password=user.password
-  ).where(users.c.id == id))
+  ))
   return conn.execute(users.select()).fetchall()
 
 @user.delete("/{id}")
